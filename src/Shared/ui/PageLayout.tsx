@@ -18,6 +18,8 @@ export const PageLayout = ({ children }: { children: ReactNode }) => {
   const handleSearch: SearchProps["onSearch"] = (value, _e, info) =>
     console.log(info?.source, value);
 
+  console.log(location.pathname.split("/")[1]);
+
   return (
     <ConfigProvider
       theme={{
@@ -44,7 +46,7 @@ export const PageLayout = ({ children }: { children: ReactNode }) => {
           <Menu
             theme="dark"
             mode="horizontal"
-            selectedKeys={[location.pathname]}
+            selectedKeys={[`/${location.pathname.split("/")[1]}`]}
             items={TABS}
             // style={{ flex: 1, minWidth: 0 }}
             onClick={handleMenuClick}
