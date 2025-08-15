@@ -1,9 +1,14 @@
-import { PlusOutlined, RightOutlined } from "@ant-design/icons";
+import { RightOutlined } from "@ant-design/icons";
 import { Button, Card, Flex, Select, Typography } from "antd";
+import { AddAccountModal } from "../../Features/AddAccountModal.tsx/AddAccountModal";
+import { AddOperationModal } from "../../Features/AddOperationModal/AddOperationModal";
+import { useNavigate } from "react-router";
 
 const { Title } = Typography;
 
 export const MainPage = () => {
+  const navigate = useNavigate();
+
   return (
     <Flex vertical gap="16px">
       <Title style={{ textAlign: "start" }}>Мой дашборд</Title>
@@ -15,9 +20,11 @@ export const MainPage = () => {
                 Мои счета
               </Title>
               <Button
-                icon={<RightOutlined style={{ color: "blue" }} />}
+                icon={<RightOutlined />}
                 iconPosition="end"
-                type="text"
+                color="primary"
+                variant="text"
+                onClick={() => navigate("/payments")}
               >
                 Все
               </Button>
@@ -27,13 +34,14 @@ export const MainPage = () => {
                 <Title level={4} style={{ margin: "auto 0" }}>
                   Общий баланс
                 </Title>
-                <Button
+                <AddAccountModal middle />
+                {/* <Button
                   color="primary"
                   variant="outlined"
-                  size="large"
+                  size="middle"
                   icon={<PlusOutlined />}
                   shape="circle"
-                />
+                /> */}
               </Flex>
             </Card>
             <Card>
@@ -41,13 +49,7 @@ export const MainPage = () => {
                 <Title level={4} style={{ margin: "auto 0" }}>
                   Последние операции
                 </Title>
-                <Button
-                  color="primary"
-                  variant="outlined"
-                  size="large"
-                  icon={<PlusOutlined />}
-                  shape="circle"
-                />
+                <AddOperationModal middle />
               </Flex>
             </Card>
           </Flex>
@@ -66,12 +68,12 @@ export const MainPage = () => {
               ]}
             />
             <Card>
-              <Title level={4} style={{ textAlign: "start" }}>
+              <Title level={4} style={{ textAlign: "start", margin: "auto 0" }}>
                 Доход
               </Title>
             </Card>
             <Card>
-              <Title level={4} style={{ textAlign: "start" }}>
+              <Title level={4} style={{ textAlign: "start", margin: "auto 0" }}>
                 Расход
               </Title>
             </Card>

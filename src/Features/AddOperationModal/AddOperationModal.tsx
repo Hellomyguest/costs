@@ -1,6 +1,17 @@
-import { PlusCircleOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, Modal } from "antd";
+import { PlusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  Button,
+  Card,
+  ConfigProvider,
+  DatePicker,
+  Flex,
+  Form,
+  Input,
+  Modal,
+  Select,
+} from "antd";
 import { useState } from "react";
+import locale from "antd/locale/ru_RU";
 
 interface Values {
   title?: string;
@@ -9,10 +20,12 @@ interface Values {
   hidden: boolean;
 }
 
-export const AddOperationModal = () => {
+export const AddOperationModal = ({ middle }: { middle?: boolean }) => {
   const [form] = Form.useForm();
   const [formValues, setFormValues] = useState<Values>();
   const [open, setOpen] = useState(false);
+
+  console.log(formValues);
 
   const onCreate = (values: Values) => {
     console.log("Received values of form: ", values);
@@ -24,14 +37,14 @@ export const AddOperationModal = () => {
     <>
       <Button
         color="primary"
-        variant="text"
-        size="large"
-        icon={<PlusCircleOutlined />}
+        variant={middle ? "outlined" : "text"}
+        shape={middle ? "circle" : undefined}
+        size={middle ? "middle" : "large"}
+        icon={middle ? <PlusOutlined /> : <PlusCircleOutlined />}
         onClick={() => setOpen(true)}
       >
-        Добавить операцию
+        {middle ? undefined : "Добавить операцию"}
       </Button>
-      <pre>{JSON.stringify(formValues, null, 2)}</pre>
       <Modal
         open={open}
         title="Добавить новую операцию"
@@ -53,27 +66,36 @@ export const AddOperationModal = () => {
           </Form>
         )}
       >
-        <Form.Item
-          name="title"
-          label="Title"
-          rules={[
-            {
-              required: true,
-              message: "Please input the title of collection!",
-            },
-          ]}
-        >
+        <Form.Item name="title" help="Название операции">
           <Input />
         </Form.Item>
-        <Form.Item name="description" label="Description">
-          <Input type="textarea" />
-        </Form.Item>
-        <Form.Item
-          name="hidden"
-          className="collection-create-form_last-form-item"
-        >
-          <Checkbox>Скрытый</Checkbox>
-        </Form.Item>
+        <Card>
+          <Flex gap="16px">
+            <Form.Item name="account" label="Операция по счету">
+              <Select placeholder="Выберите счет" />
+            </Form.Item>
+            <Form.Item name="date" label="Дата совершения операции">
+              <ConfigProvider locale={locale}>
+                <DatePicker placeholder="Выберите дату" />
+              </ConfigProvider>
+            </Form.Item>
+          </Flex>
+          <Form.Item name="value" label="Сумма операции">
+            <Input placeholder="Введите сумму" />
+          </Form.Item>
+          <Flex gap="16px">
+            <Form.Item
+              name="category"
+              label="Категория"
+              style={{ width: "100%" }}
+            >
+              <Select placeholder="Выберите категорию" />
+            </Form.Item>
+            <Form.Item name="project" label="Проект" style={{ width: "100%" }}>
+              <Select placeholder="Выберите проект" />
+            </Form.Item>
+          </Flex>
+        </Card>
       </Modal>
     </>
   );

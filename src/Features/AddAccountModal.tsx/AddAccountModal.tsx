@@ -1,5 +1,5 @@
-import { PlusCircleOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Form, Input, Modal } from "antd";
+import { PlusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { Button, Card, Checkbox, Form, Input, Modal } from "antd";
 import { useState } from "react";
 
 interface Values {
@@ -9,10 +9,12 @@ interface Values {
   hidden: boolean;
 }
 
-export const AddAccountModal = () => {
+export const AddAccountModal = ({ middle }: { middle?: boolean }) => {
   const [form] = Form.useForm();
   const [formValues, setFormValues] = useState<Values>();
   const [open, setOpen] = useState(false);
+
+  console.log(formValues);
 
   const onCreate = (values: Values) => {
     console.log("Received values of form: ", values);
@@ -24,14 +26,14 @@ export const AddAccountModal = () => {
     <>
       <Button
         color="primary"
-        variant="text"
-        size="large"
-        icon={<PlusCircleOutlined />}
+        variant={middle ? "outlined" : "text"}
+        shape={middle ? "circle" : undefined}
+        size={middle ? "middle" : "large"}
+        icon={middle ? <PlusOutlined /> : <PlusCircleOutlined />}
         onClick={() => setOpen(true)}
       >
-        Добавить счет
+        {middle ? undefined : "Добавить счет"}
       </Button>
-      <pre>{JSON.stringify(formValues, null, 2)}</pre>
       <Modal
         open={open}
         title="Добавить новый счет"
@@ -53,27 +55,27 @@ export const AddAccountModal = () => {
           </Form>
         )}
       >
-        <Form.Item
-          name="title"
-          label="Title"
-          rules={[
-            {
-              required: true,
-              message: "Please input the title of collection!",
-            },
-          ]}
-        >
+        <Form.Item name="title" help="Название счета">
           <Input />
         </Form.Item>
-        <Form.Item name="description" label="Description">
-          <Input type="textarea" />
-        </Form.Item>
-        <Form.Item
-          name="hidden"
-          className="collection-create-form_last-form-item"
-        >
-          <Checkbox>Скрытый</Checkbox>
-        </Form.Item>
+        <Card>
+          <Form.Item
+            name="bank"
+            label="Банк"
+            help="Название Банка, в котором открыт счет"
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item name="currency" label="Валюта счета">
+            <Input />
+          </Form.Item>
+          <Form.Item name="balance" label="Начальный баланс">
+            <Input />
+          </Form.Item>
+          <Form.Item name="hidden">
+            <Checkbox>Скрытый</Checkbox>
+          </Form.Item>
+        </Card>
       </Modal>
     </>
   );
