@@ -83,7 +83,15 @@ export const AddOperationModal = ({ middle }: { middle?: boolean }) => {
           <Form.Item name="value" label="Сумма операции">
             <Input placeholder="Введите сумму" />
           </Form.Item>
-          <Flex gap="16px">
+          <div
+            style={{
+              position: "absolute",
+              left: 0,
+              width: "100%",
+              borderTop: "1px solid #f0f0f0",
+            }}
+          />
+          <Flex gap="16px" style={{ paddingTop: "24px" }}>
             <Form.Item
               name="category"
               label="Категория"
